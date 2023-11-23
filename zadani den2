@@ -1,0 +1,29 @@
+1.	Vytvořte na Plocha složku paut_data
+2.	Ve složce paut_data následně vytvořte složky:
+a.	excel_soubory
+b.	pdf_soubory
+3.	Procházejte složku se soubory z Github
+•	Pokud soubor obsahuje pdf, přesuňte jej do složky pdf_soubory
+•	Pokud soubor obsahuje xlsx nebo xlsm, přesuňte jej do složky excel_soubory
+4.	V průběhu iterace zapisujte do nového Excel:
+-	název přesouvaného souboru
+-	datum přesunutí souboru (bez času)
+Po konci iterace soubor uložte na Plocha s názvem „log.xlsx“
+5.	Po dokončení iterace vypište uživateli informaci o počtu přesunutých excel souborů a pdf a souborů (zvlášť excel, zvlášť pdf)
+6.	Ve složce excel_soubory aktualizujte dotazy souboru power_query.xlsx
+7.	Získejte hodnotu z první buňky a prvního sloupce souboru power_query.xlsx
+8.	Excel zavřete s uložením
+9.	Vytvořte popisek excel_nefunguje a do něj vložte kroky
+
+-	Vypsání zprávy: Dotazy se nepodařilo aktualizovat
+-	Ukončení toku
+10.	Vytvořte chybu bloku nad body 5-7, kdy uživatele v případě chyby přesměrujeme na popisek excel_nefunguje
+11.	Ze souboru log.xlsx zjistěte počet unikátních datumů (bude třeba vytvořit proměnnou list, tu pak doplňovat a nakonec zbavit duplicit).
+Vytvořte dílčí krok zpracuj_pdf
+12.	Vytvořte akci typu „Zobrazit dialog vstupu“, do které uživatel zadá název pdf souboru ze složky pdf_soubory, který chce otevřít. (my vstup vezmeme a dosadíme do proměnné cesta_souboru, která bude obsahovat cestu ke složce pdf_soubory, k ní připojíme uživatelem zadanou hodnotu, následně přidáme „.pdf“
+13.	Pokuste se otevřít pdf soubor za pomoci kroku „Extrahovat tabulky ze souboru PDF“
+a.	Pokud se soubor nepodaří otevřít, dejte uživateli informaci, že soubor neexistuje a dejte mu možnost zapsat název souboru znovu.
+14.	Pokud se soubor podaří otevřít, vypište uživateli informaci zprávu o počtu extrahovaných tabulek a celkovém počtu extrahovaných řádků (napříč tabulkami)
+
+
+
