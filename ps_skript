@@ -1,22 +1,19 @@
+# Upravený skript testovaný na Excel se zakázaným externím obsahem.
+# Rozdíl je ve visibilitě instance, na konci se ještě čeká 10 vteřin na aktualizaci.
+# Snad bude fungovat i Vám :-)
+
 # Nastavení, aby skript nevyžadoval manuální potvrzení
 $excel = New-Object -ComObject Excel.Application
 $excel.DisplayAlerts = $false
+$excel.Visible -  $true
 
 # Otevření souboru Excel (nahraďte cestu vaším souborem)
-$workbook = $excel.Workbooks.Open(%NewVar%)
+$workbook = $excel.Workbooks.Open("C:\Users\petrrozkosny\OneDrive - CC Marketing Group\Plocha\paut_data\excel_soubory\power_query.xlsx", $null, $false, [Type]::Missing, [Type]::Missing, [Type]::Missing, $true)
 
 # Aktualizace dotazů Power Query
-foreach ($query in $workbook.Queries)
-{
-    try
-    {
-        $workbook.Connections.Item($query.Name).Refresh()
-    }
-    catch
-    {
-        Write-Warning "Nelze aktualizovat dotaz: $($query.Name)"
-    }
-}
+
+$workbook.RefreshAll()
+Start-Sleep -Seconds 10
 
 # Uložení, zavření a ukončení Excel
 $workbook.Save()
