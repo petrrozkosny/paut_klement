@@ -1,0 +1,48 @@
+Níže jednotlivé kroky v Power Automate Desktop.
+Je třeba změnit cestu Python souboru (u mě řádek 6), případně i název python skripty (u mě qr_kod.py"), argument s cestou obrazku dosazuji za -i, kdy cesta obrázku je v proměnné cesta_obrazku...
+Testovano na tomto: https://en.wikipedia.org/wiki/EPC_QR_code#/media/File:Sample_EPC_QR_code.png
+
+Cmd.Open.Open Directory: $'''C:\\''' Session=> CmdSession
+SET cesta_obrazku TO $'''C:\\Users\\petrrozkosny\\OneDrive - CC Marketing Group\\Plocha\\Sample_EPC_QR_code.png'''
+Cmd.Write Session: CmdSession Command: $'''python \"C:\\Users\\petrrozkosny\\OneDrive - CC Marketing Group\\Plocha\\qr_kod.py\" -i \"%cesta_obrazku%\"''' SendEnter: True
+WAIT 5
+Cmd.ReadFromCmdSession.Read Session: CmdSession CmdOutput=> CmdOutput
+SET NewVar TO $'''Microsoft Windows [Version 10.0.22621.2715]
+(c) Microsoft Corporation. Vçechna pr va vyhrazena.
+
+C:\\>python \"C:\\Users\\petrrozkosny\\OneDrive - CC Marketing Group\\Plocha\\qr_kod.py\"
+(\'BCD\\n001\\n1\\nSCT\\nBPOTBEB1\\nRed Cross\\nBE72000000001616\\nEUR1\\nCHAR\\n\\nUrgency fund\\nSample EPC QR Code\\n\',)
+
+'''
+Text.ParseText.RegexParse Text: NewVar TextToFind: $'''(\\(\\\'.*)$''' StartingPosition: 0 IgnoreCase: True OccurrencePositions=> Positions Matches=> Matches
+
+
+
+
+
+
+
+  Dále python kód, který je třeba mít v .py souboru
+
+from qreader import QReader
+import cv2
+import argparse
+
+# argumenty příkazové řádky
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--image", required=True,
+    help="path to input image")
+# ziskej argumenty
+args = parser.parse_args()
+
+# Umístění obrázku s QR kódem
+# Instance třídy QReader
+qreader = QReader()
+
+# Získání obrázku s QR kódem
+image = cv2.cvtColor(cv2.imread(args.image), cv2.COLOR_BGR2RGB)
+
+# Získání textu z QR kódu
+decoded_text = qreader.detect_and_decode(image=image)
+
+print(decoded_text)
